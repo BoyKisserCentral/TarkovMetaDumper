@@ -72,16 +72,15 @@ namespace globals
     static UINT64 find_pattern_xref(const std::string& pattern, const char* module_start, size_t module_size,
                                     size_t offset, size_t instruction_size)
     {
-        UINT64 res = find_pattern_internal(pattern, module_start, module_size);
+        const INT64 res = static_cast<INT64>(find_pattern_internal(pattern, module_start, module_size));
         if (!res) return 0;
-        UINT64 location = reinterpret_cast<UINT64>(module_start) + res + offset;
-        if (location < reinterpret_cast<UINT64>(module_start) || location > reinterpret_cast<UINT64>(module_start) +
-            module_size - sizeof(DWORD))
+        const INT64 location = reinterpret_cast<INT64>(module_start) + res + offset;  // NOLINT(bugprone-narrowing-conversions, cppcoreguidelines-narrowing-conversions)
+        if (location < reinterpret_cast<INT64>(module_start) || location > static_cast<INT64>(reinterpret_cast<UINT64>(module_start) + module_size - sizeof(INT32)))
         {
             logger::error("Xref out of bounds: " + pattern);
             return 0;
         }
-        UINT64 relative = *reinterpret_cast<DWORD*>(location); // NOLINT(performance-no-int-to-ptr)
+        const INT64 relative = *reinterpret_cast<int32_t*>(location); // NOLINT(performance-no-int-to-ptr)
         logger::info("Found Xref: " + pattern);
         return reinterpret_cast<UINT64>(module_start) + res + relative + instruction_size; //  - 0x0000000100000000
     }
