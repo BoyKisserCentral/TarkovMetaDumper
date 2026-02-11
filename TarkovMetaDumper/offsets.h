@@ -42,8 +42,6 @@ namespace offsets
             "E8 ? ? ? ? 8B BD ? ? ? ? B9",
             reinterpret_cast<const char*>(module_base),
             module_size, 1, 5));
-        
-        std::cout << std::hex << get_meta_version_and_key << "\n";
 
         logger::info("Metadata Loaded");
     }
