@@ -42,9 +42,11 @@ void init(HMODULE this_module)
     // decrypt meta
     metadata::decrypt();
     
+    Sleep(5000);
+    
     // get rid of our console
     hide_console();
-
+    
     // done
     FreeLibraryAndExitThread(this_module, 0);
 }

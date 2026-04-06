@@ -176,12 +176,6 @@ namespace metadata
         metadata_header.sanity = static_cast<int32_t>(0xFAB11BAF);
         metadata_header.version = 0x1F;
 
-        // fix nested types count, not sure why but there is some invalid data at the end
-        metadata_header.nestedTypesSize -= sizeof(NestedTypeIndex) * 5;
-        
-        // fix event count, also has invalid last entry
-        metadata_header.eventsSize -= sizeof(Il2CppEventDefinition);
-
         // copy out meta
         PVOID meta = malloc(size);
         memcpy(meta, metaPtr, size);
