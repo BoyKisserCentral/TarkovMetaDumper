@@ -27,8 +27,8 @@ void init(HMODULE this_module)
         // let it burn
     }
     
-    // load offsets
-    offsets::init();
+    // load early offsets
+    offsets::init_early();
 
     // hook functions
     metadata::hook_key_function();
@@ -36,6 +36,9 @@ void init(HMODULE this_module)
     // wait for game to load key
     while (!metadata::request_key) Sleep(1);
 
+    // load late offsets
+    offsets::init_late();
+    
     // wait for game to decrypt meta
     Sleep(1000);
 
